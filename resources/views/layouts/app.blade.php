@@ -41,7 +41,10 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Post</a>
+                            <a class="nav-link" href="{{ route('posts.create') }}">Post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('posts.show', $post->id) }}">Visualizza post</a>
                         </li>
                         @guest
                             <li class="nav-item">

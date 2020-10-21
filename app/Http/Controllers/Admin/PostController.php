@@ -69,7 +69,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        #dd($post);
+        #$data= $post
+        if(empty($post)){
+            abort(404);
+        }
+        return view('admin.posts.show',compact('post'));
     }
 
     /**
