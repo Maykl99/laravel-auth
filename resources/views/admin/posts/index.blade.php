@@ -1,11 +1,19 @@
 @extends('layouts.app')
 @section('content')
 
-    @if (session('status'))
-    <div class="alert alert-success"> {{-- {{ ( ? 'alert-success': 'alert-warning') }} --}}
-        {{ session('status') }}
-    </div>
+    @if (session('statusModifica'))
+      <div class="alert alert-success"> {{-- {{ ( ? 'alert-success': 'alert-warning') }} {{ ( Session::has('message') ? 'alert-success': 'alert-warning') }}--}}
+          {{ session('statusModifica') }}
+      </div>
+    @elseif(session('statusCancella'))
+      <div class="alert alert-warning"> 
+        {{ session('statusCancella') }}
+      </div>
     @endif
+
+    {{-- @if (Session::has('message'))
+        <div class="alert alert-info">{{ Session::get('message') }}</div>
+    @endif --}}
     
     <table class="table table-dark">
         <thead>

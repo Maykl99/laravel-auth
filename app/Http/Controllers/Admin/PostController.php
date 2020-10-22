@@ -131,7 +131,8 @@ class PostController extends Controller
 
         $post->update($data); # istruzione update sql 
         #$post->save(); # istruzione insert sql 
-        return  redirect()->route('posts.index')->with('status','Hai modificato correttamente il post del id ' . $post->id);
+        
+        return  redirect()->route('posts.index')->with('statusModifica','Hai modificato correttamente il post del id ' . $post->id);
     }
 
     /**
@@ -143,6 +144,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('posts.index')->with('status','Hai cancellato correttamente il post del id ' . $post->id);
+        return redirect()->route('posts.index')->with('statusCancella','Hai cancellato correttamente il post del id ' . $post->id);
     }
 }
