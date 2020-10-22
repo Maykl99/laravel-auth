@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             # l'ordine logico è importante!!
             UsersTableSeeder::class,
             PostsTableSeeder::class,
-            TagsTableSeeder::class,
+            TagsTableSeeder::class
         ]);
     }
 }

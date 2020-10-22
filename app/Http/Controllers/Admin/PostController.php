@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -27,6 +28,7 @@ class PostController extends Controller
 
 
         $posts= Post::where('user_id', Auth::id())->orderBy('created_at','desc')->get(); #istruzione ->get() obbligatoria se <> da ::all()
+        
         return view('admin.posts.index',compact('posts'));
     }
 
@@ -37,7 +39,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $tags= Tag::all();
+        return view('admin.posts.create',compact('tags'));
     }
 
     /**
@@ -58,10 +61,14 @@ class PostController extends Controller
 
         $data['user_id'] = Auth::id(); #id autentificato
         $data['slug'] = Str::slug($data['title'],'-');
+
         $newPost= new Post();
         $newPost->fill($data); #riempio i vari campi di questa istanza
-        $newPost->save();
+        
+        
         $saved= $newPost->save();
+
+        $newPost->tags()->attach($data['tags']);
 
         #dd($saved);
 
@@ -95,7 +102,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         #dd($post);
-        return view('admin.posts.edit', compact('post'));
+        $tags= Tag::all();
+        return view('admin.posts.edit', compact('post','tags'));
     }
 
     /**
@@ -110,11 +118,17 @@ class PostController extends Controller
         #dd($request->all());
         #dd($request);
 
+        $request->validate([
+            'title' => 'required|min:5|max:100',
+            'body' => 'required|min:5|max:500',
+        ]);
+
         $data=$request->all(); #array di dati 
         $data['slug']= Str::slug($data['title'],'-'); #modifica
         #dd($post->user_id);
 
-        #inserire il validate!!
+        $post->tags()->sync($data['tags']);
+
         $post->update($data); # istruzione update sql 
         #$post->save(); # istruzione insert sql 
         return  redirect()->route('posts.index')->with('status','Hai modificato correttamente il post del id ' . $post->id);

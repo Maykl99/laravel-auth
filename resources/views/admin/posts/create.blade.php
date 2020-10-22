@@ -25,6 +25,12 @@
                     <label for="body">Body</label>
                     <textarea name="body" class="form-control" rows="3">{{ old('body') }}</textarea>
                 </div>
+                <div class="form-group">
+                    @foreach ($tags as $tag)
+                        <label for="tag">{{ $tag->name }}</label>
+                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}">
+                    @endforeach
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
