@@ -15,9 +15,14 @@
                 </div>
             @endif
 
-            <form action="{{ route('posts.update', $post->id) }}" method="post">
+            <form action="{{ route('posts.update', $post->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
+                <img src="{{ asset('storage/' . $post->img)}}" alt="{{ ( $post->slug )}}" width="300px">
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Immagine</label>
+                    <input accept="image/*" name="img" type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
                 <div class="form-group">
                     <label for="title">Titolo</label>
                 <input name="title" type="text" class="form-control" value="{{ $post->title }}">

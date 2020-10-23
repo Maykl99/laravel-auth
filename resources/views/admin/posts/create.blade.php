@@ -14,7 +14,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('posts.store') }}" method="post">
+            <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('POST')
                 <div class="form-group">
@@ -31,6 +31,14 @@
                         <input type="checkbox" name="tags[]" value="{{ $tag->id }}">
                     @endforeach
                 </div>
+
+                
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Immagine</label>
+                    <input accept="image/*" name="img" type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                
+                  
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

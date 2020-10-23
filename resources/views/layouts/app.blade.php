@@ -44,6 +44,9 @@
                             <a class="nav-link" href="{{ route('posts.create') }}">Post</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('posts.guest.home') }}">Tutti i post</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('posts.index') }}">Visualizza post</a>
                         </li>
                         @guest

@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 
 /* use Illuminate\Support\Str;
@@ -55,6 +56,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|min:5|max:100',
             'body' => 'required|min:5|max:500',
+            'img' => 'image'
         ]);
 
         $data= $request->all(); #mi prendo i dati restiuiti sotto forma di array
@@ -63,6 +65,14 @@ class PostController extends Controller
         $data['slug'] = Str::slug($data['title'],'-');
 
         $newPost= new Post();
+
+        #inserimento immagini se supera la condizione
+        if(!empty($data['img'])){
+            $data['img'] = Storage::disk('public')->put('images',$data['img']);
+        }
+        
+
+
         $newPost->fill($data); #riempio i vari campi di questa istanza
         
         
@@ -125,9 +135,17 @@ class PostController extends Controller
 
         $data=$request->all(); #array di dati 
         $data['slug']= Str::slug($data['title'],'-'); #modifica
+        $data['updated_at']= Carbon::now('Europe/Rome');
         #dd($post->user_id);
 
         $post->tags()->sync($data['tags']);
+
+        if(!empty($data['img'])){
+            if(!empty($post->img)){
+                Storage::disk('public')->delete($post->img);
+            }
+            $data['img'] = Storage::disk('public')->put('images',$data['img']);
+        }
 
         $post->update($data); # istruzione update sql 
         #$post->save(); # istruzione insert sql 

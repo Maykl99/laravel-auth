@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('guests.home');
-});
+})->name('guests.home');
+
+
+
 
 Auth::routes();
 
@@ -30,3 +33,7 @@ Route::prefix('admin')
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('posts', 'PostController');
 });
+
+#parte pubblica
+Route::get('posts','PostController@index')->name('posts.guest.home');
+Route::get('posts/show/{slug}','PostController@show')->name('guest.posts.show');
